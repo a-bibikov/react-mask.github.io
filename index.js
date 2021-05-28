@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const phoneMask = () => {
-        let phoneFields = document.querySelectorAll('input[data-input=phone]');
-        let form = document.querySelector('form');
-        console.log(form)
+        const phoneFields = document.querySelectorAll('input[data-input=phone]');
+        const form = document.querySelector('form');
+        const error = document.querySelector('.form__error');
 
         const inputValueToDigits = (input) => {
             return input.value.replace(/\D/g, "");
@@ -46,6 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 formattedInput = "+" + inputNumbers.substring(0, 16);
             }
+
+            error.innerHTML = "";
+            e.currentTarget.classList.remove('error');
+
             input.value = formattedInput;
         }
 
@@ -60,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return input.value = inputNumbersValue;
                 }
             }
+            e.currentTarget.classList.remove('error');
         }
 
         const onKeyDown = (e) => {
@@ -67,25 +72,40 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.keyCode === 8 && inputValue.length === 1) {
                 e.target.value = "";
             }
+            error.innerHTML = "";
+            e.currentTarget.classList.remove('error');
+        }
+
+        const validate = (input) => {
+            return input.length >= 11
         }
 
         const onSubmit = (e) => {
             e.preventDefault();
             const input = e.currentTarget[0].value;
             let phoneFormatted = input.replace(/\D/g, "");
+
+            if (!validate(phoneFormatted)) {
+                e.currentTarget[0].classList.add('error');
+                error.innerHTML = "Please type the correct phone number";
+                return;
+            }
+
             if (phoneFormatted[0].indexOf("8") > -1) {
                 phoneFormatted = phoneFormatted.replace("8", "7");
             }
 
             const inputData = {
-                phone: phoneFormatted,
+                phone: Number(phoneFormatted),
                 length: phoneFormatted.length
             }
-            console.log("%c Phone number normalized for backend:", "color: #549CFD", phoneFormatted);
-            console.log("%c Number of digits:", "color: #549CFD", phoneFormatted.length);
-            console.log("%c You can receive data as normalized string or as object with custom fields.", "color: #005FE0");
+            console.log("%c Phone number normalized for backend:", "background: #222; color: #bada55", Number(phoneFormatted));
+            console.log("%c Number of digits:", "background: #222; color: #bada55", phoneFormatted.length);
+            console.log("You can receive data as normalized string or as object with custom fields.");
 
             alert(`Form submitted, please check console for details. Phone number normalized for backend: ${JSON.stringify(inputData)}`);
+
+            e.currentTarget[0].value = "";
             return inputData;
         }
 
