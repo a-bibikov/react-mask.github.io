@@ -1,0 +1,24 @@
+{
+  "name": "react-mask",
+  "version": "0.0.1",
+  "description": "React mask for input fields",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react",
+    "mask",
+    "input-mask",
+    "phone-mask"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/a-bibikov/react-mask.git"
+  },
+  "author": "Alexander Bibikov",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^15.6.1"
+  }
+}
